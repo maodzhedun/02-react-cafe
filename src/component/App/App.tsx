@@ -8,11 +8,11 @@ import css from './App.module.css';
 import { useState } from 'react';
 
 function App() {
-  const [vote, setVote] = useState(null);
+  // const [vote, setVote] = useState(null);
 
-  const handleVote = (value) => {
-    setVote(value);
-  };
+  // const handleVote = (value) => {
+  //   setVote(value);
+  // };
 
   return (
     <div className={css.app}>

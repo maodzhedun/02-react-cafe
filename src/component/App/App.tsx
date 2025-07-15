@@ -1,23 +1,56 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css';
+import { useState } from 'react';
 import CafeInfo from '../CafeInfo/CafeInfo';
 import VoteOptions from '../VoteOptions/VoteOptions';
+import VoteStats from '../VoteStats/VoteStats';
 import css from './App.module.css';
-// import { useState } from 'react';
+import type { Votes, VoteType } from '../../types/votes';
+import Notification from '../Notification/Notification';
 
 function App() {
-  // const [vote, setVote] = useState(null);
+  const [votes, setVotes] = useState<Votes>({
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  });
 
-  // const handleVote = (value) => {
-  //   setVote(value);
+  // const handleVote = (key: keyof Votes) => {
+  //   setVotes({ ...votes, [key]: votes[key] + 1 });
   // };
+
+  const handleVote = (type: VoteType) => {
+    setVotes(prevVotes => ({
+      ...prevVotes,
+      [type]: prevVotes[type] + 1,
+    }));
+  };
+
+  const resetVotes = () => {
+    setVotes({ good: 0, neutral: 0, bad: 0 });
+  };
+
+  const totalVotes = votes.good + votes.neutral + votes.bad;
+
+  const positiveRate = totalVotes
+    ? Math.round((votes.good / totalVotes) * 100)
+    : 0;
 
   return (
     <div className={css.app}>
       <CafeInfo />
-      <VoteOptions />
+      <VoteOptions
+        onVote={handleVote}
+        onReset={resetVotes}
+        canReset={totalVotes > 0}
+      />
+      {totalVotes === 0 ? (
+        <Notification />
+      ) : (
+        <VoteStats
+          votes={votes}
+          totalVotes={totalVotes}
+          positiveRate={positiveRate}
+        />
+      )}
     </div>
   );
 }

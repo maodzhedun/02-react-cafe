@@ -4,7 +4,7 @@ import css from './VoteOptions.module.css';
 interface VoteOptionsProps {
   onVote: (type: VoteType) => void;
   onReset: () => void;
-  canReset?: boolean; // Optional prop to control reset button visibility
+  canReset: boolean; // Prop to control reset button visibility
 }
 
 export default function VoteOptions({
